@@ -19,6 +19,7 @@
 # ---
 
 *.swp
-/.grunt/
 /node_modules
 npm-debug.log
+/ui/fixture
+/ui/config.local.js

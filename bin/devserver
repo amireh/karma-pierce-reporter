@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ ! -f "ui/config.local.js" ]; then
+  echo "ui/config.local.js does not exist, but is needed to develop. Creating an empty one..."
+  echo "exports = {};" > "ui/config.local.js"
+fi
+
 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js \
   --port 8090 \
   --content-base www \

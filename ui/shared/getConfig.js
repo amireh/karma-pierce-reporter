@@ -10,8 +10,8 @@ module.exports = function() {
     );
 
     if (process.env.NODE_ENV === "development") {
-      console.debug('Using fixture report.');
-      config.reportBlob = require('json!../fixture/report_00');
+      console.debug('Using development config.');
+      extend(config, require("../config.local.js"));
     }
 
     return config;
