@@ -41,6 +41,8 @@ var App = React.createClass({
     var { hierarchical } = this.props;
     var className = classSet({
       'coverage': true,
+      'coverage--listing': !hierarchical,
+      'coverage--tree': !!hierarchical,
       'coverage--with-navigation': !!hierarchical
     });
 

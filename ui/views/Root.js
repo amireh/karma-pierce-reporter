@@ -18,23 +18,15 @@ var Root = React.createClass({
   },
 
   componentDidMount: function() {
-    var config = getConfig();
-    var reportURL = this.props.query.url;
-
     RouteActions.assignDelegate(this);
-
     AppStore.addChangeListener(this.reload);
 
-    if (config.reportBlob) {
-      AppActions.useBlob(config.reportBlob);
-    }
-    else if (reportURL) {
-      AppActions.fetchFromURL(reportURL);
-    }
+    this.populate();
   },
 
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.reload);
+    RouteActions.assignDelegate(undefined);
   },
 
   componentDidUpdate: function(prevProps, prevState) {
@@ -52,6 +44,18 @@ var Root = React.createClass({
         {...this.props}
       />
     );
+  },
+
+  populate: function() {
+    var config = getConfig();
+    var reportURL = this.props.query.url;
+
+    if (reportURL) {
+      AppActions.fetchFromURL(reportURL);
+    }
+    else if (config.reportBlob) {
+      AppActions.useBlob(config.reportBlob);
+    }
   },
 
   reload: function() {

@@ -1,4 +1,3 @@
-var K = require("constants");
 var FileInfo = require("./FileInfo");
 var assign = require("utils/assign");
 var { findWhere, sortBy, groupBy } = require("lodash");
@@ -7,7 +6,14 @@ var SCOPE_ROOT = "root";
 var FOLDER_SEPARATOR = "/";
 
 function createRelativePath(filePath, sourceRoot) {
-  return filePath.split(sourceRoot)[1];
+  var fragments = filePath.split(sourceRoot);
+
+  if (fragments.length === 2) {
+    return fragments[1];
+  }
+  else {
+    return filePath;
+  }
 }
 
 function extractFileScopeInfo(filePath, scopeChain, options) {

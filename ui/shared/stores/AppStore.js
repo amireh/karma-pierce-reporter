@@ -26,19 +26,11 @@ class AppStore extends Store {
     });
   }
 
-  setGrep(grep) {
-    this.setState({ grep });
-  }
-
   getDatabase(hierarchical) {
     return hierarchical ?
       this.state.hierarchicalCoverage :
       this.state.coverage
     ;
-  }
-
-  getGrep() {
-    return this.state.grep;
   }
 };
 

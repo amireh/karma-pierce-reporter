@@ -3,6 +3,7 @@ var fs = require('fs-extra');
 var path = require('path');
 var chokidar = require('chokidar');
 var generateAssets = require('./lib/generateAssets');
+var waitUntil = require('./lib/waitUntil');
 var DEFAULTS = {
   dir: 'pierce'
 };
@@ -108,7 +109,19 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
 
   emitter.on('exit', function(done) {
     chokidarWatcher.close();
-    done();
+
+    waitUntil(function() {
+      return fs.existsSync(filePath);
+    }, function() {
+      if (fs.existsSync(filePath)) {
+        doGenerateAssets();
+      }
+      else {
+        logger.error("Unable to find the JSON coverage report.");
+      }
+
+      done();
+    }, 1000, 5);
   });
 
   watchReportFile(getReportPath());
