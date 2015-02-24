@@ -1,5 +1,5 @@
 var path = require("path");
-var assign = require("react/lib/Object.assign");
+var extend = require("lodash").extend;
 
 var nodeEnv = process.env.NODE_ENV;
 var baseConfig = {
@@ -39,5 +39,5 @@ var baseConfig = {
 };
 
 module.exports = function(overrides) {
-  return assign({}, baseConfig, overrides);
+  return extend({}, baseConfig, overrides);
 };

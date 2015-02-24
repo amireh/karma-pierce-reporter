@@ -1,6 +1,8 @@
+/.npmignore
 /ui
 /bin
 /webpack
 /webpack.config.js
 /karma.conf.js
 /*.sublime-project
+/*.sublime-workspace
