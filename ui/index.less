@@ -2,6 +2,10 @@
 @line-height: 20px;
 @actionbar-height: @whitespace*3 + @line-height;
 
+@media print {
+  .ActionBar { display: none; }
+}
+
 // <jenking>
 @bg: #000000;
 @fg: #c0c0c0;

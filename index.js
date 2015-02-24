@@ -2,7 +2,7 @@
 var fs = require('fs-extra');
 var path = require('path');
 var chokidar = require('chokidar');
-var copyAssets = require('./lib/copyAssets');
+var generateAssets = require('./lib/generateAssets');
 var DEFAULTS = {
   dir: 'pierce'
 };
@@ -55,9 +55,9 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
     return helper.normalizeWinPath(path.resolve(getRuntimeDir(), 'config.js'));
   }
 
-  function generateAssets() {
+  function doGenerateAssets() {
     logger.debug("generating assets...");
-    copyAssets(getRuntimeDir(), filePath);
+    generateAssets(getRuntimeDir(), filePath, config);
   }
 
   this.onBrowserStart = function(browser) {
@@ -92,8 +92,8 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
   });
 
   chokidarWatcher
-    .on('add', generateAssets)
-    .on('change', generateAssets)
+    .on('add', doGenerateAssets)
+    .on('change', doGenerateAssets)
     .on('error', function(e) {
       logger.error(e);
     })

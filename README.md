@@ -41,7 +41,15 @@ module.exports = function(config) {
       // config, so in this case the Pierce HTML output will be found at:
       // 
       // "coverage/pierce/index.html"
-      dir: "pierce" 
+      dir: "pierce",
+
+      sourceRoot: "",
+      
+      // TBD
+      groupBy: [ "screens/" ],
+
+      // TBD
+      keepGroupNames: true
     }
   });
 };

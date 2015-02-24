@@ -1,20 +1,17 @@
 var K = require("constants");
-var File = require("./FileInfo");
+var FileInfo = require("./FileInfo");
+var assign = require("utils/assign");
 var { findWhere, sortBy, groupBy } = require("lodash");
 var { keys } = Object;
-var { SOURCE_ROOT, MODULE_PREFIXES } = K;
 var SCOPE_ROOT = "root";
 var FOLDER_SEPARATOR = "/";
 
-function createRelativePath(filePath) {
-  return filePath.split(SOURCE_ROOT)[1];
+function createRelativePath(filePath, sourceRoot) {
+  return filePath.split(sourceRoot)[1];
 }
 
-function extractFileScopeInfo(filePath, scopeChain) {
-  if (arguments.length === 1) {
-    scopeChain = [];
-  }
-
+function extractFileScopeInfo(filePath, scopeChain, options) {
+  var { modulePrefixes, keepPrefix } = options;
   var indent = Array(scopeChain.length+1).join("\t");
   var log = function() {
     var messages = [].slice.call(arguments);
@@ -23,8 +20,8 @@ function extractFileScopeInfo(filePath, scopeChain) {
 
   log(`Resolving scope for ${filePath}...`);
 
-  for (var i = 0; i < MODULE_PREFIXES.length; ++i) {
-    var modulePrefix = MODULE_PREFIXES[i];
+  for (var i = 0; i < modulePrefixes.length; ++i) {
+    var modulePrefix = modulePrefixes[i];
     var fragments = filePath.split(modulePrefix);
     var scope, fileName, scopedFileName, separatorIdx;
 
@@ -38,14 +35,19 @@ function extractFileScopeInfo(filePath, scopeChain) {
         scopedFileName = fileName.slice(separatorIdx);
         scope = fileName.slice(0, separatorIdx);
 
-        scopeChain.push(
-          [ modulePrefix, scope ].join('')
-        );
+        if (keepPrefix) {
+          scopeChain.push(
+            [ modulePrefix, scope ].join('')
+          );
+        }
+        else {
+          scopeChain.push(scope);
+        }
 
         log(`Scoped file name: ${scopedFileName}`);
         log(`Scope: ${scope}`);
 
-        return extractFileScopeInfo(scopedFileName, scopeChain) || {
+        return extractFileScopeInfo(scopedFileName, scopeChain, options) || {
           scopeChain,
           id: scopedFileName
         };
@@ -53,8 +55,6 @@ function extractFileScopeInfo(filePath, scopeChain) {
       else {
         scopedFileName = [ modulePrefix, fileName ].join("/").replace(/\/+/g, "/");
         scope = modulePrefix;
-
-        // scopeChain.push(scope);
 
         return {
           scopeChain,
@@ -80,13 +80,26 @@ function collectScopeCoverage(scope) {
   }
 }
 
-function CoverageTree(report) {
+function CoverageTree(report, _options) {
+  var options = assign({}, {
+    keepPrefix: true
+  }, _options);
+
   var scopeTree = keys(report).reduce(function(tree, key) {
-    var file;
+    var file, fileInfo, scope, currentScope, scopeIter;
     var fileReport = report[key];
-    var filePath = createRelativePath(fileReport.path);
-    var fileInfo = extractFileScopeInfo(filePath);
-    var scope = tree;
+    var filePath = fileReport.path;
+
+    if (options.sourceRoot && options.sourceRoot.length) {
+      filePath = createRelativePath(fileReport.path, options.sourceRoot);
+    }
+
+    fileInfo = extractFileScopeInfo(filePath, [], {
+      modulePrefixes: options.modulePrefixes,
+      keepPrefix: options.keepPrefix
+    });
+
+    scope = tree;
 
     if (!fileInfo) {
       fileInfo = {
@@ -95,8 +108,8 @@ function CoverageTree(report) {
       };
     }
 
-    for (var i = 0; i < fileInfo.scopeChain.length; ++i) {
-      var currentScope = fileInfo.scopeChain[i];
+    for (scopeIter = 0; scopeIter < fileInfo.scopeChain.length; ++scopeIter) {
+      currentScope = fileInfo.scopeChain[scopeIter];
 
       scope = findWhere(scope.scopes, { name: currentScope }) || (function() {
         var newScope = { name: currentScope, files: [], scopes: [] };
@@ -105,7 +118,7 @@ function CoverageTree(report) {
       }());
     }
 
-    file = File(fileReport);
+    file = FileInfo(fileReport);
     file.id = filePath;
     file.path = fileInfo.id;
 
