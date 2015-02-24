@@ -1,0 +1,25 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+
+      "folder_exclude_patterns":  [
+        "build",
+        "log",
+        "tmp",
+        ".bundle",
+        ".git",
+        ".grunt",
+        ".yardoc",
+        "node_modules",
+        ".sass-cache",
+        ".ebextensions",
+      ],
+
+      "file_exclude_patterns": [
+        "*.sublime-workspace"
+      ]
+		}
+	]
+}

@@ -1,0 +1,296 @@
+@whitespace: 13px;
+@line-height: 20px;
+@actionbar-height: @whitespace*3 + @line-height;
+
+// <jenking>
+@bg: #000000;
+@fg: #c0c0c0;
+@hover-bg: inherit;
+@hover-fg: #00ff00;
+@active-bg: @hover-bg;
+@active-fg: @hover-fg;
+@border-bg: @fg;
+@blue: #000080;
+@green: #008000;
+@link-fg: #008080;
+@link-focus: #00ffff;
+@td-bg: #272822;
+@font: Monaco, monospace, "Ubuntu Mono";
+@font-size: 12px;
+// </jenking>
+
+// <light>
+// @bg: #f4f4f4;
+// @fg: #c0c0c0;
+// @hover-bg: inherit;
+// @hover-fg: #00ff00;
+// @active-bg: @hover-bg;
+// @active-fg: @hover-fg;
+// @border-bg: @fg;
+// @blue: #000080;
+// @green: #008000;
+// @link-fg: #008080;
+// @link-focus: #00ffff;
+// @td-bg: #222;
+// @font-size: 13px;
+// </light>
+
+// <monokai>
+// @bg: #49483E;
+// @fg: #F8F8F0;
+// @font-family: Monaco, monospace, "Ubuntu Mono";
+// @font-size: 12px;
+// </monokai>
+
+body {
+  background: @bg;
+  color: @fg;
+  font-family: @font;
+  font-size: @font-size;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+a {
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: @link-fg;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.active, &:focus {
+    color: @link-focus;
+  }
+
+  &.active {
+    font-weight: bold;
+  }
+}
+
+button, .btn {
+  border: 2px inset #808080;
+  padding: @whitespace/2;
+  line-height: @line-height;
+  background: #000080;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  font-size: 11px;
+
+  &:hover, &:focus, &.active {
+    background: #0000ff;
+  }
+
+  &:active {
+    border-style: ridge;
+  }
+
+  &.a11y-btn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: inherit;
+    height: auto;
+    line-height: inherit;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+
+    &:hover {
+      color: @hover-fg;
+      cursor: pointer;
+    }
+  }
+}
+
+td {
+  background-color: @td-bg;
+}
+
+.a11y-btn:focus, .a11y-btn.active, .active .a11y-btn {
+  color: @active-fg;
+  outline: none;
+}
+
+:disabled, [disabled] {
+  pointer-events: none;
+  cursor: default;
+}
+
+.ActionBar {
+  line-height: @line-height;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: @whitespace;
+  background: @green;
+  z-index: 1;
+}
+
+.Content {
+  margin-bottom: @actionbar-height + @whitespace;
+}
+
+.LoadingScreen {
+  font-size: 16px;
+  color: @green;
+}
+
+.FileBrowser {
+  table {
+    cellspacing: 0;
+    cellpadding: 0;
+    border-collapse: collapse;
+  }
+
+  th { text-align: left; }
+
+  tr:hover td {
+    background: rgba(255,255,255,0.1);
+    background: #555;
+    color: white;
+  }
+}
+
+.File {
+  &__MetricBreakdown {
+    // opacity: 0.25;
+  }
+}
+
+.Status {
+  &--coverage-5 {
+    @color: lighten(@green, 20%);
+    color: @color;
+
+    &.Status--fill {
+      color: black;
+      // color: white;
+      background: @color;
+    }
+  }
+
+  &--coverage-4 {
+    @color: lighten(orange, 20%);
+    color: @color;
+
+    &.Status--fill {
+      color: black;
+      background: @color;
+    }
+  }
+
+  &--coverage-3 {
+    @color: orange;
+    color: @color;
+
+    &.Status--fill {
+      color: black;
+      background: @color;
+    }
+  }
+
+  &--coverage-2 {
+    @color: lighten(red, 20%);
+    color: @color;
+
+    &.Status--fill {
+      color: black;
+      background: @color;
+    }
+  }
+
+  &--coverage-1 {
+    @color: lighten(red, 10%);
+    color: @color;
+
+    &.Status--fill {
+      color: black;
+      background: @color;
+    }
+  }
+}
+
+.indent {
+  margin-left: 2em;
+}
+
+
+table {
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  // padding: 5px;
+  vertical-align: top;
+}
+
+
+
+
+::-webkit-scrollbar {
+  width:  15px;
+  height: 15px;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+  height: 0px;
+  width: 0;
+  display: block;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece  {
+  background-color: @border-bg;
+  -webkit-border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  height: 30px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb:vertical,
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #808080;
+  border: 3px solid @border-bg;
+
+  -webkit-border-radius: 0;
+
+  &:hover {
+    background-color: @blue;
+  }
+}
+
+input[type="text"],
+input[type="password"] {
+  display: block;
+  line-height: 30px;
+  padding: @whitespace / 2;
+  font-family: inherit;
+  border-style: inset;
+  border-width: 2px;
+  border-color: @border-bg;
+  color: inherit;
+  background: transparent;
+  margin: @whitespace 0;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}

@@ -1,0 +1,24 @@
+# autogen
+# -------
+
+/www
+/*.sublime-workspace
+
+# build
+# -----
+
+/tmp
+
+# assets
+# ------
+
+*.zip
+*.gz
+
+# env
+# ---
+
+*.swp
+/.grunt/
+/node_modules
+npm-debug.log

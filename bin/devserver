@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+./node_modules/webpack-dev-server/bin/webpack-dev-server.js \
+  --port 8090 \
+  --content-base www \
+  --watch \
+  --hot \
+  --inline
