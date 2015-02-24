@@ -298,3 +298,30 @@ input[type="password"] {
 input[type="checkbox"] {
   vertical-align: middle;
 }
+
+
+@navigation-width: 320px;
+
+.coverage {
+  &--with-navigation {
+    margin-left: @navigation-width;
+  }
+}
+
+.scope-navigation {
+  width: @navigation-width;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: @whitespace;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  &__entry {
+  }
+}

@@ -1,15 +1,17 @@
 var React = require("react");
 var Router = require("react-router");
-var App = require("./components/App");
-var AppStore = require("stores/AppStore");
-var AppActions = require("actions/AppActions");
 var RouteActions = require("actions/RouteActions");
 var getConfig = require("getConfig");
+var AppStore = require("stores/AppStore");
+var AppActions = require("actions/AppActions");
+
+var { element } = React.PropTypes;
+var { RouteHandler } = Router;
 
 var Root = React.createClass({
   mixins: [ Router.Navigation, Router.State ],
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       query: {}
     };
@@ -17,9 +19,10 @@ var Root = React.createClass({
 
   componentDidMount: function() {
     var config = getConfig();
-    var reportURL = this.props.query.url || config.reportPath;
+    var reportURL = this.props.query.url;
 
     RouteActions.assignDelegate(this);
+
     AppStore.addChangeListener(this.reload);
 
     if (config.reportBlob) {
@@ -28,19 +31,9 @@ var Root = React.createClass({
     else if (reportURL) {
       AppActions.fetchFromURL(reportURL);
     }
-
-    if (config.websocketSupport) {
-      Comlink.getSingleton().connect(() => {
-        if (this.isMounted() && !reportURL && !config.reportBlob) {
-          AppActions.fetchFromWebSocket();
-        }
-      });
-    }
   },
 
   componentWillUnmount: function() {
-    Comlink.getSingleton().disconnect();
-
     AppStore.removeChangeListener(this.reload);
   },
 
@@ -52,21 +45,20 @@ var Root = React.createClass({
     }
   },
 
-  reload: function() {
-    this.forceUpdate();
-  },
-
-  render: function () {
-    var hierarchical = !!this.props.query.hierarchical;
-
+  render() {
     return (
-      <App
-        database={AppStore.getDatabase(hierarchical)}
-        hierarchical={hierarchical}
+      <RouteHandler
+        config={getConfig()}
         {...this.props}
       />
     );
-  }
+  },
+
+  reload: function() {
+    console.debug('Root: Rendering.');
+
+    this.forceUpdate();
+  },
 });
 
 module.exports = Root;

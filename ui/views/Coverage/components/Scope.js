@@ -30,7 +30,7 @@ var Scope = React.createClass({
 
   render() {
     return(
-      <div>
+      <div data-scroll-id={this.props.name}>
         <h2 onClick={this.toggleCollapsedState}>
           {this.props.name}
 

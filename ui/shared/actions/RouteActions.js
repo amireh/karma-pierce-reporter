@@ -1,5 +1,5 @@
 var { keys } = Object;
-var routerDelegate;
+var delegate;
 
 /**
  * Update the query string to reflect the new given key/value pairs. This
@@ -9,18 +9,23 @@ var routerDelegate;
  *         The query parameters.
  */
 exports.updateQuery = function(newQuery) {
-  var delegate = routerDelegate;
   var routes = delegate.getRoutes();
   var currentRouteName = routes[routes.length-1].name;
+  var query = exports.adjustQuery(newQuery);
+
+  delegate.replaceWith(currentRouteName, delegate.getParams(), query);
+};
+
+exports.adjustQuery = function(newQuery) {
   var query = delegate.getQuery();
 
   keys(newQuery).forEach(function(key) {
     query[key] = newQuery[key];
   });
 
-  delegate.replaceWith(currentRouteName, delegate.getParams(), query);
-};
+  return query;
+}
 
-exports.assignDelegate = function(delegate) {
-  routerDelegate = delegate;
+exports.assignDelegate = function(inDelegate) {
+  delegate = inDelegate;
 };

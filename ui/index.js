@@ -2,16 +2,15 @@ require("./index.less");
 
 var React = require("react");
 var Router = require("react-router");
-var { Route, NotFoundRoute, HashLocation } = Router;
+var Root = require('./views/Root.js');
+var { Route, DefaultRoute, NotFoundRoute, HashLocation } = Router;
 
 var router = Router.create({
   location: HashLocation,
   routes: [
-    <Route
-      name="root"
-      path="/"
-      handler={require('./views/Root')}
-    />,
+    <Route name="root" path="/" handler={Root}>
+      <DefaultRoute name="coverage" handler={require("./views/Coverage")} />
+    </Route>,
 
     <NotFoundRoute
       name="not-found"
