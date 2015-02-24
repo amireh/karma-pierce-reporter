@@ -60,17 +60,23 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
     generateAssets(getRuntimeDir(), filePath, config);
   }
 
-  this.onBrowserStart = function(browser) {
-    var newFilePath = getReportPath(browser.name);
-
-    if (newFilePath !== filePath) {
+  function watchReportFile(newFilePath) {
+    if (filePath) {
       chokidarWatcher.unwatch(filePath);
-      chokidarWatcher.add(newFilePath);
-
-      filePath = newFilePath;
-
-      logger.info('will be watching ' + newFilePath);
     }
+
+    // we need the directory to exist for chokidar to watch it properly,
+    // otherwise we'll be missing the first report to be generated
+    fs.ensureDirSync(path.dirname(newFilePath));
+    chokidarWatcher.add(newFilePath);
+
+    filePath = newFilePath;
+
+    logger.info('will be watching ' + filePath);
+  }
+
+  this.onBrowserStart = function(browser) {
+    watchReportFile(getReportPath(browser.name));
   };
 
   if (!helper.isDefined(covConfig)) {
@@ -86,9 +92,9 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
   config = helper.merge({}, DEFAULTS, config);
 
   chokidarWatcher = new chokidar.FSWatcher({
-    usePolling: false,
-    ignorePermissionErrors: true,
-    ignoreInitial: true,
+    usePolling: true,
+    ignorePermissionErrors: false,
+    ignoreInitial: false,
   });
 
   chokidarWatcher
@@ -104,8 +110,7 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
     done();
   });
 
-  filePath = getReportPath();
-  chokidarWatcher.add(filePath);
+  watchReportFile(getReportPath());
 
   logger.debug('expected JSON report destination:', filePath);
 }
