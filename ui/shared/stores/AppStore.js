@@ -1,5 +1,6 @@
 var Store = require("Store");
 var ajax = require("ajax");
+var CoverageTree = require("models/CoverageTree");
 var Coverage = require("models/Coverage");
 
 class AppStore extends Store {
@@ -10,22 +11,14 @@ class AppStore extends Store {
     };
   }
 
-  load() {
-    // ajax({
-    //   url: "/dist/database.json"
-    // }).then((report) => {
-    //   this.inject(report);
-    // });
-  }
-
   inject(report) {
-    var coverage = Coverage(report, {
+    var coverageTree = CoverageTree(report, {
       grep: this.state.grep
     });
 
     this.setState({
-      hierarchicalCoverage: coverage,
-      coverage: Coverage.flatten(coverage)
+      hierarchicalCoverage: coverageTree,
+      coverage: Coverage(coverageTree)
     });
   }
 

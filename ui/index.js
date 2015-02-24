@@ -1,19 +1,23 @@
-var React = require("react");
-var Router = require("react-router");
-var { Route, HashLocation } = Router;
-
-window.$ = require("jquery");
-
 require("./index.less");
 
-if (process.env.NODE_ENV === "development") {
-  console.debug('Using fixture report.');
-  require("config").reportBlob = require('json!./fixture/report_00');
-}
+var React = require("react");
+var Router = require("react-router");
+var { Route, NotFoundRoute, HashLocation } = Router;
 
 var router = Router.create({
   location: HashLocation,
-  routes: require('./routes')()
+  routes: [
+    <Route
+      name="root"
+      path="/"
+      handler={require('./views/Root')}
+    />,
+
+    <NotFoundRoute
+      name="not-found"
+      handler={require('./views/NotFound')}
+    />
+  ]
 });
 
 router.run(function(Handler, state) {

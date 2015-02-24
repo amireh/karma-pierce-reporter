@@ -26,12 +26,12 @@ if (nodeEnv === 'production') {
 
 module.exports = commonConfig({
   plugins: plugins,
-  entry: { app: entries },
+  entry: { index: entries },
 
   output: {
-    path: __dirname + "/www/dist/",
+    path: __dirname + "/www/",
     filename: "[name].js",
-    publicPath: "http://localhost:8090/dist/"
+    publicPath: "http://localhost:8090/"
   },
 
 });

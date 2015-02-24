@@ -4,8 +4,7 @@ var App = require("./components/App");
 var AppStore = require("stores/AppStore");
 var AppActions = require("actions/AppActions");
 var RouteActions = require("actions/RouteActions");
-var Comlink = require("Comlink");
-var config = require("config");
+var getConfig = require("getConfig");
 
 var Root = React.createClass({
   mixins: [ Router.Navigation, Router.State ],
@@ -17,6 +16,7 @@ var Root = React.createClass({
   },
 
   componentDidMount: function() {
+    var config = getConfig();
     var reportURL = this.props.query.url || config.reportPath;
 
     RouteActions.assignDelegate(this);

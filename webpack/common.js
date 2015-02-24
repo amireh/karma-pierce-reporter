@@ -1,7 +1,6 @@
 var path = require("path");
 var assign = require("react/lib/Object.assign");
 
-// var root = path.join(__dirname, '..');
 var nodeEnv = process.env.NODE_ENV;
 var baseConfig = {
   devtool: nodeEnv === "production" ? null : "eval",
@@ -14,7 +13,6 @@ var baseConfig = {
   },
 
   module: {
-    // noParse: [ /node_modules/ ],
     loaders: [
       {
         test: /ui\/(.+)\.js$/,

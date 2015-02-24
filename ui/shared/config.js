@@ -1,1 +1,0 @@
-module.exports = window.PIERCE_CONFIG; // this will be auto-generated
