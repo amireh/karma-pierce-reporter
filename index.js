@@ -56,8 +56,9 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
   }
 
   function doGenerateAssets() {
-    logger.debug("generating assets...");
+    logger.debug("Generating assets...");
     generateAssets(getRuntimeDir(), filePath, config);
+    logger.info("Coverage report consumed, assets generated.")
   }
 
   function watchReportFile(newFilePath) {
@@ -65,12 +66,12 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
       chokidarWatcher.unwatch(filePath);
     }
 
+    filePath = newFilePath;
+
     // we need the directory to exist for chokidar to watch it properly,
     // otherwise we'll be missing the first report to be generated
-    fs.ensureDirSync(path.dirname(newFilePath));
-    chokidarWatcher.add(newFilePath);
-
-    filePath = newFilePath;
+    fs.ensureDirSync(path.dirname(filePath));
+    chokidarWatcher.add(filePath);
 
     logger.info('will be watching ' + filePath);
   }
@@ -92,7 +93,7 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
   config = helper.merge({}, DEFAULTS, config);
 
   chokidarWatcher = new chokidar.FSWatcher({
-    usePolling: true,
+    usePolling: false,
     ignorePermissionErrors: false,
     ignoreInitial: false,
   });
@@ -111,8 +112,6 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
   });
 
   watchReportFile(getReportPath());
-
-  logger.debug('expected JSON report destination:', filePath);
 }
 
 KarmaPierceReporter.$inject = [
