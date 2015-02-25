@@ -67,7 +67,7 @@ var Scope = React.createClass({
     return this.props.scopes.map(function(scope) {
       return (
         <Scope
-          key={scope.name}
+          key={scope.id}
           detailMode={detailMode}
           hierarchical={hierarchical}
           level={level}

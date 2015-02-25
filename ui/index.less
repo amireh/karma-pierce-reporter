@@ -1,13 +1,17 @@
 @import "~variables";
+@import "./assets/fonts/visitor1";
 
 @media print {
   .ActionBar { display: none; }
 }
+
 body {
   background: @bg;
   color: @fg;
   font-family: @font;
   font-size: @font-size;
+  padding: 0;
+  margin: 0;
 }
 
 * {
@@ -85,21 +89,6 @@ td {
 :disabled, [disabled] {
   pointer-events: none;
   cursor: default;
-}
-
-.ActionBar {
-  line-height: @line-height;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: @whitespace;
-  background: @green;
-  z-index: 1;
-}
-
-.Content {
-  margin-bottom: @actionbar-height + @whitespace;
 }
 
 .LoadingScreen {
@@ -254,4 +243,18 @@ input[type="password"] {
 
 input[type="checkbox"] {
   vertical-align: middle;
+}
+
+
+.whitespace-indent {
+  display: inline-block;
+
+  &--level-1 { margin-left: @whitespace; }
+  &--level-2 { margin-left: @whitespace*2; }
+  &--level-3 { margin-left: @whitespace*3; }
+}
+
+.font-bitmap {
+  font-family: "visitor_tt1_brkregular";
+  font-size: 18px;
 }

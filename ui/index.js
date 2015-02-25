@@ -10,6 +10,12 @@ var router = Router.create({
   routes: [
     <Route name="root" path="/" handler={Root}>
       <DefaultRoute name="coverage" handler={require("./views/Coverage")} />
+
+      <Route
+        name="sourceBrowser"
+        path="/files/?*?"
+        handler={require("./views/SourceBrowser")}
+      />
     </Route>,
 
     <NotFoundRoute

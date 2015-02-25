@@ -118,7 +118,13 @@ function CoverageTree(report, _options) {
       currentScope = fileInfo.scopeChain[scopeIter];
 
       scope = findWhere(scope.scopes, { name: currentScope }) || (function() {
-        var newScope = { name: currentScope, files: [], scopes: [] };
+        var newScope = {
+          id: fileInfo.scopeChain.slice(0, scopeIter+1).join(FOLDER_SEPARATOR),
+          name: currentScope,
+          level: scopeIter+1,
+          files: [],
+          scopes: []
+        };
         scope.scopes.push(newScope);
         return newScope;
       }());
@@ -131,7 +137,7 @@ function CoverageTree(report, _options) {
     scope.files.push(file);
 
     return tree;
-  }, { name: "root", files: [], scopes: [] });
+  }, { id: "root", name: "root", files: [], scopes: [], level: 0 });
 
   collectScopeCoverage(scopeTree);
 

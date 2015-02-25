@@ -1,4 +1,4 @@
-var Subject = require("./App");
+var Subject = require("./CoverageView");
 var reactSuite = require("test_helpers/reactSuite");
 
 describe(Subject, function() {

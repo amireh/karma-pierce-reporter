@@ -2,8 +2,9 @@ var React = require("react");
 var classSet = require("react/lib/cx");
 var Button = require("components/Button");
 var Status = require("components/Status");
-var RouteActions = require("actions/RouteActions");
-var { MODE_NORMAL, MODE_DETAILED_BREAKDOWN } = require("constants");
+var { adjustQuery } = require("actions/RouteActions");
+var { MODE_NORMAL, MODE_DETAILED_BREAKDOWN, TAB_SOURCE } = require("constants");
+var { Link } = require("react-router");
 var { oneOf, string } = React.PropTypes;
 var fmt = function(number) {
   return Math.round(number);
@@ -47,9 +48,11 @@ var File = React.createClass({
     return (
       <tr className={className}>
         <td className="File__Path">
-          <Status coverage={v}>
-            {this.props.fullPath ? this.props.id : this.props.path}
-          </Status>
+          <Link to={"/files/" + this.props.id}>
+            <Status coverage={v}>
+              {this.props.fullPath ? this.props.id : this.props.path}
+            </Status>
+          </Link>
         </td>
 
         {detailMode === MODE_NORMAL &&

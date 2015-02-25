@@ -24,7 +24,7 @@ exports.adjustQuery = function(newQuery) {
   });
 
   return query;
-}
+};
 
 exports.assignDelegate = function(inDelegate) {
   delegate = inDelegate;

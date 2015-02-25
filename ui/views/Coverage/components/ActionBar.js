@@ -2,35 +2,36 @@ var React = require("react");
 var Button = require("components/Button");
 var AppActions = require("actions/AppActions");
 var RouteActions = require("actions/RouteActions");
+var { QUERY_ON, QUERY_OFF } = require("constants");
 
 var ActionBar = React.createClass({
   getDefaultProps: function() {
     return {
       hierarchical: false,
-      detail: undefined
+      mode: QUERY_OFF
     };
   },
 
   render: function() {
     return(
-      <div className="ActionBar">
+      <div className="listing__action-bar">
         <label>
           <input
             type="checkbox"
-            checked={this.props.hierarchical === "1"}
+            checked={this.props.hierarchical}
             onChange={this.toggleHierarchicalMode}
           />
-
+          {" "}
           Hierarchical View
         </label>
 
-        {" "}
+        {" | "}
 
         <label>
           Mode
           {" "}
-          <select value={this.props.detail} onChange={this.changeDetailMode}>
-            <option value="__none__">Compact</option>
+          <select value={this.props.mode} onChange={this.changeDetailMode}>
+            <option value="off">Compact</option>
             <option value="breakdown">Breakdown</option>
             <option value="breakdown_detailed">Detailed Breakdown</option>
           </select>
@@ -41,7 +42,7 @@ var ActionBar = React.createClass({
 
   toggleHierarchicalMode: function() {
     RouteActions.updateQuery({
-      hierarchical: this.props.hierarchical === "1" ? undefined : "1"
+      flat: this.props.hierarchical ? QUERY_ON : QUERY_OFF
     });
   },
 
@@ -49,7 +50,7 @@ var ActionBar = React.createClass({
     var mode = e.target.value;
 
     RouteActions.updateQuery({
-      mode: mode === "__none__" ? undefined : mode
+      mode: mode === "off" ? QUERY_OFF : mode
     });
   }
 });

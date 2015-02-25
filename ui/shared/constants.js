@@ -9,3 +9,9 @@ exports.SORT_DESC = "desc";
 exports.MODE_NORMAL = undefined;
 exports.MODE_BREAKDOWN = "breakdown";
 exports.MODE_DETAILED_BREAKDOWN = "breakdown_detailed";
+
+exports.TAB_LISTING = 'listing';
+exports.TAB_SOURCE = 'source';
+
+exports.QUERY_ON = "1";
+exports.QUERY_OFF = undefined;

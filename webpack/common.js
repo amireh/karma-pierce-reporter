@@ -15,7 +15,7 @@ var baseConfig = {
   module: {
     loaders: [
       {
-        test: /ui\/(.+)\.js$/,
+        test: /\.js$/,
         loader: [
           "jsx-loader?harmony&insertPragma=React.DOM",
           'wrap-loader?js',
@@ -24,8 +24,13 @@ var baseConfig = {
       },
 
       {
-        test: /ui\/(.*)\.less$/,
-        loader: "style-loader!css-loader!less-loader"
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000'
+      },
+
+      {
+        test: /\.less$/,
+        loader: "style-loader!css-loader?importLoaders=1!less-loader"
       }
     ]
   },
