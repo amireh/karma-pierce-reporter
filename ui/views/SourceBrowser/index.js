@@ -13,7 +13,7 @@ var SourceBrowser = React.createClass({
       <Layout>
         {currentFile &&
           <Layout.Content>
-            <Console>{currentFile.code}</Console>
+            <Console file={currentFile}>{currentFile.code}</Console>
           </Layout.Content>
         }
       </Layout>

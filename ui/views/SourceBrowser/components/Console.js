@@ -1,11 +1,12 @@
 var React = require("react");
-var Highlight = require("jsx!react-highlight/optimized.jsx");
+var AnnotatedSource = require("models/AnnotatedSource");
+var Highlight = require("components/Highlight");
 
 var Console = React.createClass({
   render() {
     return(
       <div className="console">
-        <Highlight languages={["javascript"]}>{this.props.children}</Highlight>
+        <Highlight children={AnnotatedSource(this.props.file)} />
       </div>
     );
   }

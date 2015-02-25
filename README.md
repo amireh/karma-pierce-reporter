@@ -34,23 +34,79 @@ module.exports = function(config) {
     };
 
     pierceReporter: {
-      // host: "0.0.0.0",
-      // port: 8942,
-
-      // the "dir" is relative to the JSON coverageReporter config dir/subdir
+      // Path to where the output will be generated.
+      // 
+      // The "dir" is relative to the JSON coverageReporter config dir/subdir
       // config, so in this case the Pierce HTML output will be found at:
       // 
       // "coverage/pierce/index.html"
       dir: "pierce",
 
-      sourceRoot: "",
-      
-      // TBD
-      groupBy: [ "screens/" ],
+      // Number of seconds the plugin is allowed to wait for the JSON coverage
+      // report to be generated, in case it wasn't by the time the plugin was
+      // run.
+      // 
+      // This is necessary since we can't chain Karma reporters so the plugin
+      // can not tell when karma-coverage is done writing its reports.
+      waitSeconds: 5,
 
-      // TBD
+      // A string to delimit all (full) file-paths by. This is commonly the 
+      // name of the folder that contains your app, or the root folder under
+      // which the javascript files reside.
+      // 
+      // For example, if you have a folder structure like this:
+      // 
+      //   home
+      //     somebody
+      //       projects
+      //         myapp
+      //           package.json
+      //           lib
+      //             index.js
+      //           test
+      //             index.test.js
+      // 
+      // You would specify "myapp" and /home/somebody/projects/myapp will be
+      // discarded from the file paths in the UI.
+      sourceRoot: null,
+      
+      // A list of folder names to group the modules by in the UI.
+      // An example value of "views/" will group all files under _any_ folder
+      // called "views" recursively. So, for a file path like this:
+      // 
+      //     /views/Users/views/Profile/index.js
+      //     
+      // The file will be listed under:
+      // 
+      //   Users
+      //     Profile
+      //       index.js
+      //       
+      groupBy: [ "views/" ],
+
+      // If you have specified any groups in the "groupBy" parameter, turning
+      // this flag on will keep the group names in the file paths. So, instead
+      // of seeing:
+      // 
+      //   Users
+      //     Profile
+      //       index.js
+      //  
+      // You will now see:
+      // 
+      //   views/Users
+      //     views/Profile
+      //       index.js
+      // 
+      // This option is handy when you have multiple groups.
       keepGroupNames: true
     }
   });
 };
 ```
+
+## License
+
+Copyright (c) 2015 Instructure Inc.
+
+The code is licensed under the MIT License, and some parts of are under the BSD-3-Clause.

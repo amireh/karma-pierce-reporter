@@ -4,9 +4,7 @@ var path = require('path');
 var chokidar = require('chokidar');
 var generateAssets = require('./lib/generateAssets');
 var waitUntil = require('./lib/waitUntil');
-var DEFAULTS = {
-  dir: 'pierce'
-};
+var DEFAULTS = require('./defaults.plugin.js');
 
 function getReporterConfig(covConfig) {
   var covReporters = covConfig.reporters || [ covConfig ];
@@ -52,14 +50,10 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
     );
   }
 
-  function getRuntimeConfigPath() {
-    return helper.normalizeWinPath(path.resolve(getRuntimeDir(), 'config.js'));
-  }
-
   function doGenerateAssets() {
     logger.debug("Generating assets...");
     generateAssets(getRuntimeDir(), filePath, config);
-    logger.info("Coverage report consumed, assets generated.")
+    logger.info("Coverage report consumed, assets generated.");
   }
 
   function watchReportFile(newFilePath) {
@@ -72,6 +66,7 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
     // we need the directory to exist for chokidar to watch it properly,
     // otherwise we'll be missing the first report to be generated
     fs.ensureDirSync(path.dirname(filePath));
+
     chokidarWatcher.add(filePath);
 
     logger.info('will be watching ' + filePath);
@@ -121,7 +116,7 @@ function KarmaPierceReporter(basePath, logLevel, config, covConfig, emitter, kar
       }
 
       done();
-    }, 1000, 5);
+    }, 1000, Math.max(config.waitSeconds || 1, 1));
   });
 
   watchReportFile(getReportPath());

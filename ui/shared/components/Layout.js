@@ -39,10 +39,10 @@ var Layout = React.createClass({
       var node = document.querySelector(".layout-tabs");
 
       if (node) {
-        return node.offsetHeight;
+        return node.getBoundingClientRect().height;
       }
       else {
-        return 44;
+        return 50;
       }
     }
   },

@@ -1,5 +1,4 @@
 var Store = require("Store");
-var ajax = require("ajax");
 var CoverageTree = require("models/CoverageTree");
 var Coverage = require("models/Coverage");
 var getConfig = require("getConfig");

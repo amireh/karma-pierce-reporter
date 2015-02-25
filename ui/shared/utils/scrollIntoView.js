@@ -1,9 +1,9 @@
-var $ = require("jquery");
+// var $ = require("jquery");
 
 module.exports = function(selector, offsetTop) {
-  var $el = $(selector);
+  var $el = document.querySelector(selector);
 
-  if ($el.length) {
-    $(window).scrollTop($el.position().top - offsetTop);
+  if ($el) {
+    window.scrollTo(0, $el.offsetTop - offsetTop);
   }
 };

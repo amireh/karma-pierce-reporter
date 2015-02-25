@@ -1,5 +1,6 @@
 @import "~variables";
 @import "./assets/fonts/visitor1";
+@import "./assets/istanbul-coverage";
 
 @media print {
   .ActionBar { display: none; }
@@ -77,9 +78,6 @@ button, .btn {
   }
 }
 
-td {
-  background-color: @td-bg;
-}
 
 .a11y-btn:focus, .a11y-btn.active, .active .a11y-btn {
   color: @active-fg;
@@ -101,9 +99,18 @@ td {
     cellspacing: 0;
     cellpadding: 0;
     border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    vertical-align: top;
   }
 
   th { text-align: left; }
+  td {
+    background-color: @td-bg;
+  }
 
   tr:hover td {
     background: rgba(255,255,255,0.1);
@@ -174,20 +181,6 @@ td {
 .indent {
   margin-left: 2em;
 }
-
-
-table {
-  width: 100%;
-}
-
-th, td {
-  text-align: left;
-  // padding: 5px;
-  vertical-align: top;
-}
-
-
-
 
 ::-webkit-scrollbar {
   width:  15px;

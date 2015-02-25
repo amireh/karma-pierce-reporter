@@ -1,0 +1,53 @@
+.cstat-yes { color: #111; }
+.cstat-no { background: rgba(255,0,0,0.35); }
+.fstat-no {
+  background: rgba(255,200,0,0.75);
+
+  &, span {
+    color: black !important;
+  }
+}
+
+.cbranch-no { background:  yellow !important; color: #111; }
+
+.cstat-skip { background: #ddd; color: #111; }
+.fstat-skip { background: #ddd; color: #111 !important; }
+.cbranch-skip { background: #ddd !important; color: #111; }
+
+.missing-if-branch {
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  padding: 0 4px;
+  background: black;
+  color: yellow;
+}
+
+.skip-if-branch {
+  display: none;
+  margin-right: 10px;
+  position: relative;
+  padding: 0 4px;
+  background: #ccc;
+  color: white;
+}
+
+.missing-if-branch .typ, .skip-if-branch .typ {
+  color: inherit !important;
+}
+
+.entity, .metric {
+  font-weight: bold;
+}
+
+.metric {
+  display: inline-block;
+  border: 1px solid #333;
+  padding: 0.3em;
+  background: white;
+}
+.metric small {
+  font-size: 80%;
+  font-weight: normal;
+  color: #666;
+}
