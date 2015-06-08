@@ -39,9 +39,9 @@ var Tabs = React.createClass({
 
     return(
       <div className="layout-tabs">
-        <span className="layout-tabs__tab font-bitmap layout-tabs__logo">
+        <marquee behavior="alternate" className="layout-tabs__tab font-bitmap layout-tabs__logo">
           Pierce
-        </span>
+        </marquee>
 
         <Tab key={TAB_LISTING} href="#/" active={pathName === "/"}>
           Overview
