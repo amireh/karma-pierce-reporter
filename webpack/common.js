@@ -16,21 +16,26 @@ var baseConfig = {
     loaders: [
       {
         test: /\.js$/,
-        loader: [
-          "jsx-loader?harmony&insertPragma=React.DOM",
-          'wrap-loader?js',
-          "react-hot"
-        ].join("!")
+        loader: 'babel?presets[]=es2015&presets[]=react',
+        include: [
+          path.resolve(__dirname, '..', 'ui')
+        ]
       },
 
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
+        loader: 'url-loader?limit=100000',
+        include: [
+          path.resolve(__dirname, '..', 'ui')
+        ]
       },
 
       {
         test: /\.less$/,
-        loader: "style-loader!css-loader?importLoaders=1!less-loader"
+        loader: "style-loader!css-loader?importLoaders=1!less-loader",
+        include: [
+          path.resolve(__dirname, '..', 'ui')
+        ]
       }
     ]
   },
