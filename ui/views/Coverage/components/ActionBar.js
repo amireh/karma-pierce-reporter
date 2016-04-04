@@ -36,6 +36,22 @@ var ActionBar = React.createClass({
             <option value="breakdown_detailed">Detailed Breakdown</option>
           </select>
         </label>
+        {" | "}
+
+        <label>
+          Grep
+          {" "}
+
+          <input
+            type="text"
+            defaultValue={this.props.grep}
+            ref="grep"
+            className="action-bar__grep"
+            onKeyUp={this.grepOnReturn}
+          />
+
+          <button type="button" onClick={this.adjustGrep}>Apply</button>
+        </label>
       </div>
     );
   },
@@ -52,6 +68,20 @@ var ActionBar = React.createClass({
     RouteActions.updateQuery({
       mode: mode === "off" ? QUERY_OFF : mode
     });
+  },
+
+  adjustGrep: function() {
+    var grep = this.refs.grep.getDOMNode().value || '';
+
+    RouteActions.updateQuery({
+      grep: grep.length === 0 ? QUERY_OFF : grep
+    });
+  },
+
+  grepOnReturn(e) {
+    if (e.keyCode === 13) {
+      this.adjustGrep();
+    }
   }
 });
 

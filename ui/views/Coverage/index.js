@@ -3,6 +3,8 @@ var CoverageView = require("./components/CoverageView");
 var { shape, string } = React.PropTypes;
 var AppStore = require("stores/AppStore");
 var { QUERY_ON, QUERY_OFF } = require("constants");
+const { assign } = require('lodash');
+const { computeScopeCoverage } = require('models/Coverage');
 
 require('./index.less');
 
@@ -26,14 +28,32 @@ var Coverage = React.createClass({
   },
 
   render: function () {
-    var { query } = this.props;
+    const { query } = this.props;
+    const { grep } = query;
+
+    let db = AppStore.getDatabase(query.flat === QUERY_OFF);
+
+    if (db && grep && grep.length > 0) {
+      if (!db.files) {
+        debugger
+      }
+      const grepRe = RegExp(grep, 'i');
+      const newFiles = db.files.filter(x => x.id.match(grepRe));
+      const newCoverage = computeScopeCoverage(newFiles);
+
+      db = assign({}, db, {
+        files: newFiles,
+        v: newCoverage
+      });
+    }
 
     return (
       <CoverageView
         mode={query.mode}
         scope={query.scope}
-        hierarchical={query.flat === QUERY_OFF}
-        database={AppStore.getDatabase(query.flat === QUERY_OFF)}
+        hierarchical={query.flat === QUERY_OFF && (!grep || grep.length === 0)}
+        database={db}
+        query={query}
       />
     );
   }

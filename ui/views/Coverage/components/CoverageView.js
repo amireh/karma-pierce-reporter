@@ -52,6 +52,7 @@ var CoverageView = React.createClass({
           <ActionBar
             mode={this.props.mode}
             hierarchical={hierarchical}
+            grep={this.props.query.grep}
           />
         </Layout.ActionBar>
 

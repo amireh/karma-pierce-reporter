@@ -37,7 +37,13 @@ var Scope = React.createClass({
           {this.props.files.length > 0 && [
             <span key="ws" children=" " />,
             <Status coverage={this.props.v} key="v">
-              ({this.props.v.toFixed(2)}%)
+              ({
+                this.props.v === Infinity ? (
+                  `${this.props.v}`
+                ) : (
+                  `${this.props.v.toFixed(2)}%`
+                )
+              })
             </Status>
           ]}
         </h2>
